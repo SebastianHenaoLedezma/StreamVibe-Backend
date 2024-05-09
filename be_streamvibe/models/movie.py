@@ -3,6 +3,7 @@ from datetime import date
 from .genre import Genre
 from .director import Director
 from .language import Language
+from .actor import Actor
 
 
 # Create your models here.
@@ -18,6 +19,8 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre)
     directors = models.ManyToManyField(Director)
     languages = models.ManyToManyField(Language)
+    actors = models.ManyToManyField(Actor)
+    
 
     def __str__(self):
         return (f"{self.title} "
