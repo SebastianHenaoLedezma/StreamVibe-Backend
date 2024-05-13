@@ -1,10 +1,11 @@
-from .models import Movie, Genre, Director, Language, Actor
+from .models import Movie, Genre, Director, Language, Actor, MusicCreator
 from rest_framework import viewsets, permissions
 from .serializers.movie_serializer import MovieSerializer
 from .serializers.genre_serializer import GenreSerializer
 from .serializers.director_serializer import DirectorSerializer
 from .serializers.language_serializer import LanguageSerializer
 from .serializers.actor_serializer import ActorSerializer 
+from .serializers.music_creator_serializer import MusicCreatorSerializer 
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -33,3 +34,9 @@ class ActorViewSet(viewsets.ModelViewSet):
     queryset = Actor.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = ActorSerializer
+
+class MusicCreatorViewSet(viewsets.ModelViewSet):
+    queryset = MusicCreator.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = MusicCreatorSerializer
+

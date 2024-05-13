@@ -4,10 +4,11 @@ from .models.genre import Genre
 from .models.director import Director
 from .models.language import Language
 from .models.actor import Actor
+from .models.music_creator import MusicCreator
 
 
 class MovieAdmin(admin.ModelAdmin):
-    filter_horizontal = ('genres', 'directors', 'languages', 'actors',)
+    filter_horizontal = ('genres', 'directors', 'languages', 'actors', 'music_creators',)
 
 
 # Register your models here.
@@ -16,4 +17,5 @@ admin.site.register(Genre)
 admin.site.register(Director)
 admin.site.register(Language)
 admin.site.register(Actor)
+admin.site.register(MusicCreator)
 
