@@ -4,7 +4,7 @@ from .genre import Genre
 from .director import Director
 from .language import Language
 from .actor import Actor
-
+from .music_creator import MusicCreator
 
 # Create your models here.
 class Movie(models.Model):
@@ -20,6 +20,7 @@ class Movie(models.Model):
     directors = models.ManyToManyField(Director)
     languages = models.ManyToManyField(Language)
     actors = models.ManyToManyField(Actor)
+    music_creators = models.ManyToManyField(MusicCreator)
     
 
     def __str__(self):
