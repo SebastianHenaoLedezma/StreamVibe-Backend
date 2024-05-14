@@ -3,7 +3,7 @@ from django.urls import path
 from .api import (MovieViewSet,GenreViewSet, DirectorViewSet,
                   LanguageViewSet, ActorViewSet, UserViewSet,
                   FaqViewSet, SupportRequestViewSet, ReviewViewSet,
-                  RatingViewSet
+                  RatingViewSet, MusicCreatorViewSet
                   )
 from .views.movie_view import list_create_movie, retrieve_update_delete_movie
 from .views.genre_view import list_create_genre, retrieve_update_delete_genre
@@ -18,6 +18,7 @@ router = routers.DefaultRouter()
 # router.register('api/directors', DirectorViewSet, 'directors')
 # router.register('api/languages', LanguageViewSet, 'languages')
 router.register('api/actors', ActorViewSet, 'actors')
+router.register('api/music_creator', MusicCreatorViewSet, 'music_creator')
 router.register('api/users', UserViewSet, 'users' )
 router.register('api/faqs', FaqViewSet, 'faqs' )
 router.register('api/supportRequest', SupportRequestViewSet, 'supportRequests' )

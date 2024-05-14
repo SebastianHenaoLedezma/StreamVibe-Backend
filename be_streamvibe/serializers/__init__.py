@@ -2,6 +2,7 @@ from .movie_serializer import MovieSerializer
 from .genre_serializer import GenreSerializer
 from .director_serializer import DirectorSerializer
 from .language_serializer import LanguageSerializer
+from .music_creator_serializer import MusicCreatorSerializer
 from .actor_serializer import ActorSerializer
 from .user_serializer import UserSerializer
 from .faq_serializer import FaqSerializer
