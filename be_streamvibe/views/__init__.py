@@ -1,0 +1,3 @@
+from .movie_view import list_create_movie, retrieve_update_delete_movie
+from .genre_view import list_create_genre, retrieve_update_delete_genre
+from .language_view import list_create_language, retrieve_update_delete_language
