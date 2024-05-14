@@ -4,3 +4,8 @@ from .director import Director
 from .language import Language
 from .actor import Actor
 from .music_creator import MusicCreator
+from .user import User
+from .faq import Faq
+from .support_request import Support_request
+from .review import Review
+from .rating import Rating
