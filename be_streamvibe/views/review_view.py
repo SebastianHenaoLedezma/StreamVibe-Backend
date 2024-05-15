@@ -1,39 +1,39 @@
 from rest_framework import status 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from be_streamvibe.models.genre import Genre
-from be_streamvibe.serializers.genre_serializer import GenreSerializer
+from be_streamvibe.models.review import Review
+from be_streamvibe.serializers.review_serializer import ReviewSerializer
 
 
 @api_view(['GET', 'POST'])
-def list_create_genre(request) -> dict:
+def list_create_review(request):
     if request.method == 'GET':
-        genres = Genre.objects.all()
-        serializer = GenreSerializer(genres, many=True)
+        reviews = Review.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = GenreSerializer(data=request.data)
+        serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def retrieve_update_delete_genre(request, pk) -> dict:
+def retrieve_update_delete_review(request, pk):
     try:
-        genre = Genre.objects.get(pk=pk)
-    except Genre.DoesNotExist:
-        return Response({'messange': 'Genre not found'},status=status.HTTP_404_NOT_FOUND)
+        review = Review.objects.get(pk=pk)
+    except Review.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serializer = GenreSerializer(genre)
+        serializer = ReviewSerializer(review)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
-        genre.delete()
+        review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

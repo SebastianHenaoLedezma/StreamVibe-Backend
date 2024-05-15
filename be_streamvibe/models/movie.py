@@ -5,14 +5,15 @@ from .director import Director
 from .language import Language
 from .actor import Actor
 from .music_creator import MusicCreator
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Movie(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
     release_date = models.DateField(default=date.today)
-    duration = models.IntegerField(default=0)
-    movie_url = models.CharField(max_length=200)
+    duration = models.DurationField()
+    movie_url = CloudinaryField('video', resource_type='video', default='')
     trailer_url = models.CharField(max_length=200)
     trailer_thumbnail_url = models.CharField(max_length=200)
     upcoming_movie = models.DateField(blank=True, null=True)
@@ -24,7 +25,4 @@ class Movie(models.Model):
     
 
     def __str__(self):
-        return (f"{self.title} "
-                f"({', '.join(genre.name for genre in self.genres.all())}) "
-                f"({', ' .join(director.name for director in self.directors.all())})"
-                f"({', ' .join(language.name for language in self.languages.all())})")
+        return self.title
