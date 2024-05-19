@@ -2,9 +2,9 @@ from rest_framework import serializers
 from be_streamvibe.models.actor import Actor
 
 class ActorSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Actor
-        fields = ("id", "name", "photo_url")
+        fields = ("photo_url",)
 
 
 
