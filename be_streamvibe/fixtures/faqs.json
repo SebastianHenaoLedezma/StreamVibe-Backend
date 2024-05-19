@@ -1,0 +1,10 @@
+[
+  {
+    "model": "be_streamvibe.Faq",
+    "pk": 1,
+    "fields":{
+      "question": "What is StreamVibe?",
+      "answer": "StreamVibe is a streaming service that allows you to watch movies and shows on demand."
+    }
+  }
+]

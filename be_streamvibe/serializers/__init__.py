@@ -9,3 +9,4 @@ from .faq_serializer import FaqSerializer
 from .supportRequest_serializer import SupportRequestSerializer
 from .review_serializer import ReviewSerializer
 from .rating_serializer import RatingSerializer
+from .genre_v2_serializer import TopGenreSerializer
