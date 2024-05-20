@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from be_streamvibe.models.movie import Movie
 from be_streamvibe.serializers.movie_serializer import MovieSerializer
+from be_streamvibe.serializers.movie_ratings_serializer import MovieRatingsSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -40,6 +41,16 @@ def random_movie(request):
     movie = Movie.objects.all()[random_index]
     serialized_movie = MovieSerializer(movie)
     return Response(serialized_movie.data)
+
+
+@api_view(['GET'])
+def must_watch_movies(request):
+    top_movies = Movie.objects.order_by('-ratings')[:4]
+    if not top_movies:
+        return Response({'message': 'No movies found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serialized_movies = MovieRatingsSerializer(top_movies, many=True)
+    return Response(serialized_movies.data)
 
 
 @api_view(['GET'])
