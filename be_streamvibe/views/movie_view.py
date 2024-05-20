@@ -1,3 +1,5 @@
+import random
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -29,22 +31,47 @@ def all_info_movie(request, pk):
     return Response(serialized_movie.data)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def all_data_movie(request, pk):
-    try:
-        movies = Movie.objects.get(pk=pk)
-    except Movie.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+@api_view(['GET'])
+def random_movie(request):
+    movie_count = Movie.objects.count()
+    if movie_count == 0:
+        return Response({'message': 'No movies found'}, status=status.HTTP_404_NOT_FOUND)
+    random_index = random.randint(0, movie_count - 1)
+    movie = Movie.objects.all()[random_index]
+    serialized_movie = MovieSerializer(movie)
+    return Response(serialized_movie.data)
 
-    if request.method == 'GET':
-        serializer = [MovieSerializer.process_data(movie) for movie in movies]
-        return Response(serializer)
-    elif request.method == 'PUT':
-        serializer = MovieSerializer(movies, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
-        movies.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def get_movie(request, pk):
+    try:
+        movie = Movie.objects.get(pk=pk)
+    except Movie.DoesNotExist:
+        return Response({'message': 'Movie not found'}, status=status.HTTP_404_NOT_FOUND)
+    serialized_movie = MovieSerializer(movie)
+    return Response(serialized_movie.data)
+
+
+@api_view(['PUT'])
+def update_movie(request, pk):
+    try:
+        movie = Movie.objects.get(pk=pk)
+    except Movie.DoesNotExist:
+        return Response({'message': 'Movie not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = MovieSerializer(movie, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_movie(request, pk):
+    try:
+        movie = Movie.objects.get(pk=pk)
+    except Movie.DoesNotExist:
+        return Response({'message': 'Movie not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    movie.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)

@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('be_streamvibe.urls')),
+    path('api/', include('be_streamvibe.urls')),
 ]

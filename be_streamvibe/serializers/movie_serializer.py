@@ -15,7 +15,6 @@ from be_streamvibe.serializers.genre_serializer import GenreSerializer
 from be_streamvibe.serializers.language_serializer import LanguageSerializer
 
 
-
 class ActorSerializer(serializers.ModelSerializer):
     photo_url = serializers.SerializerMethodField(method_name='get_photo_url')
 
@@ -70,6 +69,12 @@ class MusicCreatorSerializer(serializers.ModelSerializer):
         return music_creator.photo_url.url
 
 
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ('id', 'name')
+
+
 class MovieSerializer(serializers.ModelSerializer):
     movie_url = serializers.SerializerMethodField(method_name='get_movie_url')
     trailer_url = serializers.SerializerMethodField(method_name='get_trailer_url')
@@ -85,7 +90,8 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = (
-            'id', 'title', 'description', 'release_year', 'release_date', 'duration', 'movie_url', 'trailer_url', 'trailer_image_url',
+            'id', 'title', 'description', 'release_year', 'release_date', 'duration', 'movie_url', 'trailer_url',
+            'trailer_image_url',
             'genres', 'directors', 'languages', 'actors', 'music_creators', 'reviews', 'ratings')
 
     @staticmethod
