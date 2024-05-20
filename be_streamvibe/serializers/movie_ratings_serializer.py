@@ -9,8 +9,7 @@ class MovieRatingsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ['title', 'trailer_image_url', 'duration',
-                  'total_rating']  # Asegúrate de que estos campos existen en el modelo Movie
+        fields = ['title', 'trailer_image_url', 'duration', 'total_rating']
 
     @staticmethod
     def get_trailer_image(movie):
