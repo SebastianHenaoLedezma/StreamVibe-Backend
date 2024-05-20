@@ -6,7 +6,7 @@ from be_streamvibe.serializers.movie_serializer import MovieSerializer
 
 
 @api_view(['GET', 'POST'])
-def list_create_movie(request):
+def all_movie(request):
     if request.method == 'GET':
         movies = Movie.objects.all()
         serializer = MovieSerializer(movies, many=True)
@@ -19,22 +19,32 @@ def list_create_movie(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def retrieve_update_delete_movie(request, pk):
+@api_view(['GET'])
+def all_info_movie(request, pk):
     try:
         movie = Movie.objects.get(pk=pk)
+    except Movie.DoesNotExist:
+        return Response({'message': 'Movie not found'}, status=status.HTTP_404_NOT_FOUND)
+    serialized_movie = MovieSerializer(movie)
+    return Response(serialized_movie.data)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def all_data_movie(request, pk):
+    try:
+        movies = Movie.objects.get(pk=pk)
     except Movie.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = MovieSerializer(movie)
-        return Response(serializer.data)
+        serializer = [MovieSerializer.process_data(movie) for movie in movies]
+        return Response(serializer)
     elif request.method == 'PUT':
-        serializer = MovieSerializer(movie, data=request.data)
+        serializer = MovieSerializer(movies, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
-        movie.delete()
+        movies.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

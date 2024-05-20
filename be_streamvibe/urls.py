@@ -1,7 +1,7 @@
 from rest_framework import routers
 from django.urls import path
 
-from .views.movie_view import list_create_movie, retrieve_update_delete_movie
+from .views.movie_view import all_movie, all_data_movie, all_info_movie
 from .views.genre_view import genre, all_data_genre, all_genre
 from .views.faq_view import list_create_faq
 from .views.rating_view import list_create_rating, retrieve_update_delete_rating
@@ -11,8 +11,8 @@ from .views.user_view import list_create_user, retrieve_update_delete_user
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('api/movies/', list_create_movie, name='movie-list-create'),
-    path('api/movies/<int:pk>/', retrieve_update_delete_movie, name='movie-retrieve-update-delete'),
+    path('api/movies/', all_movie, name='movie-list-create'),
+    path('api/movies/<int:pk>/', all_info_movie, name='movie-retrieve-update-delete'),
 
     path('api/genres', genre, name='genres-list-create'),
     path('api/genres/<int:pk>', all_genre, name='genres-retrieve-update-delete'),

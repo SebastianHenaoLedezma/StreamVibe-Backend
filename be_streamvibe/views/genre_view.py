@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -13,8 +14,8 @@ from be_streamvibe.serializers.movie_serializer import MovieSerializer
 def genre(request):
     if request.method == 'GET':
         genres = Genre.objects.all()
-        serialized_genres = [GenreSerializer.process_data(genre) for genre in genres]
-        return Response(serialized_genres)
+        serializer_genres = GenreSerializer(genres, many=True)
+        return Response(serializer_genres.data)
     elif request.method == 'POST':
         serializer = GenreSerializer(data=request.data)
         if serializer.is_valid():
@@ -34,18 +35,18 @@ def all_genre(request, pk):
 
     if number_of_movies:
         number_of_movies = int(number_of_movies)
-        serialized_genre = GenreSerializer.process_data(genre, number_of_movies=number_of_movies)
+        serialized_genre = GenreSerializer(genre, number_of_movies=number_of_movies)
     else:
-        serialized_genre = GenreSerializer.process_data(genre)
+        serialized_genre = GenreSerializer(genre)
 
-    return Response(serialized_genre)
+    return Response(serialized_genre.data)
 
 @api_view(['GET'])
 def all_data_genre(request):
     if request.method == 'GET':
         genres = Genre.objects.all()
-        serialized_genres = [GenreSerializer.process_data(genre) for genre in genres]
-        return Response(serialized_genres)
+        serializer_genres = [GenreSerializer.process_data(genre) for genre in genres]
+        return Response(serializer_genres)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])

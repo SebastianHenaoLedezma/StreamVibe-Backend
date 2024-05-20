@@ -1,4 +1,4 @@
-from .movie_view import list_create_movie, retrieve_update_delete_movie
+from .movie_view import all_movie, all_data_movie, all_info_movie
 from .genre_view import genre, all_data_genre, all_genre
 # from .language_view import list_create_language, retrieve_update_delete_language
 # from .actor_view import list_create_actor, retrieve_update_delete_actor
