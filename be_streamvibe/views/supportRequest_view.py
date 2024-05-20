@@ -1,4 +1,4 @@
-from rest_framework import status 
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from be_streamvibe.models.support_request import Support_request
@@ -18,13 +18,14 @@ def list_create_support_request(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET', 'PUT', 'DELETE'])
 def retrieve_update_delete_support_request(request, pk):
     try:
         support_request = Support_request.objects.get(pk=pk)
     except Support_request.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
+
     if request.method == 'GET':
         serializer = SupportRequestSerializer(support_request)
         return Response(serializer.data)

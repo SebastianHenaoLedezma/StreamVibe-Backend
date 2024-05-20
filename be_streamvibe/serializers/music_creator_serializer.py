@@ -6,5 +6,3 @@ class MusicCreatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = MusicCreator
         fields = ("name", "photo_url")
-
-

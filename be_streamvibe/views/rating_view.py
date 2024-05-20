@@ -8,8 +8,8 @@ from be_streamvibe.serializers.rating_serializer import RatingSerializer
 @api_view(['GET', 'POST'])
 def list_create_rating(request):
     if request.method == 'GET':
-        Ratings = Rating.objects.all()
-        serializer = RatingSerializer(Ratings, many=True)
+        ratings = Rating.objects.all()
+        serializer = RatingSerializer(ratings, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = RatingSerializer(data=request.data)
