@@ -15,7 +15,7 @@ from .models.rating import Rating
 class MovieAdmin(admin.ModelAdmin):
     list_display = ('title', 'display_genres', 'display_directors')
     search_fields = ('title',)
-    filter_horizontal = ('genres', 'directors', 'languages', 'actors', 'music_creators', 'reviews')
+    filter_horizontal = ('genres', 'directors', 'languages', 'actors', 'music_creators', 'reviews', 'ratings',)
     list_filter = ('genres', 'directors', 'languages',)
 
     def display_genres(self, obj):
