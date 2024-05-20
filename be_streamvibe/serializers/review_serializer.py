@@ -8,9 +8,17 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('id', 'review','user_name')
+        fields = ('id', 'review', 'user_name')
 
     def get_user_name(self, obj):
         user_id = obj.user_id
         user = User.objects.get(id=user_id)
         return user.name
+
+    def all(self):
+        user = User.objects.get.all()
+        return {
+            'reviews': [review.review for review in user],
+            'user_name': [review.user_name for review in user],
+            'ratings': [review.ratings for review in user],
+        }

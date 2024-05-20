@@ -6,5 +6,21 @@
       "question": "What is StreamVibe?",
       "answer": "StreamVibe is a streaming service that allows you to watch movies and shows on demand."
     }
+  },
+  {
+    "model": "be_streamvibe.Faq",
+    "pk": 2,
+    "fields":{
+      "question": "How much does StreamVibe cost?",
+      "answer": "Costo variable depende de lo que el usuario quiere ver. Puede ser de $0.99 a $9.99 por mes."
+    }
+  },
+  {
+    "model": "be_streamvibe.Faq",
+    "pk": 3,
+    "fields":{
+      "question": "What content is available on StreamVibe?",
+      "answer": "Solo son películas que hemos adquirido y que estén disponibles en streaming."
+    }
   }
 ]

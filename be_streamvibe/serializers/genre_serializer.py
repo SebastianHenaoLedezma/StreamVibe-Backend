@@ -3,20 +3,15 @@ from be_streamvibe.models.genre import Genre
 
 
 class GenreSerializer(serializers.ModelSerializer):
-    movies = serializers.ListField(read_only=True)
+    movies = serializers.SerializerMethodField(method_name='get_movies')
 
     class Meta:
         model = Genre
         fields = ('id', 'name', 'movies')
 
     @staticmethod
-    def process_data(genre, top=False, number_of_movies=None):
+    def get_movies(genre, top=False, number_of_movies=None):
         movies = genre.movie_set.order_by('-ratings__rating') if top else genre.movie_set.all()
         movies = movies[:number_of_movies] if number_of_movies else movies
-        movies_data = [movie.trailer_thumbnail_url.url for movie in movies]
-
-        return {
-            'id': genre.id,
-            'name': genre.name,
-            'movies': movies_data
-        }
+        movie_urls = [movie.trailer_thumbnail.url for movie in movies]
+        return movie_urls
