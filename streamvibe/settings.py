@@ -51,6 +51,8 @@ OWN_APPS = [
 INSTALLED_APPS = BASE_APPS + THIRD_APPS + OWN_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,7 +60,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'streamvibe.urls'
@@ -137,6 +138,34 @@ cloudinary.config(
 )
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',  # Agrega aquí la URL de tu aplicación de React
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',    # Agrega aquí la URL de tu aplicación de React
+]
+
+
+# Permitir todos los orígenes para desarrollo
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Especificar métodos permitidos
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+# Especificar headers permitidos
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 

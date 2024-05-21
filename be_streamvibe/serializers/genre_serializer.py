@@ -18,7 +18,7 @@ class GenreSerializer(serializers.ModelSerializer):
                 'trailer_thumbnail': movie.trailer_thumbnail.url,
                 'title': movie.title,
                 'duration': movie.duration,
-                'ratings': movie.ratings,
+                # 'ratings': movie.ratings,
             }
             for movie in movies
         ]

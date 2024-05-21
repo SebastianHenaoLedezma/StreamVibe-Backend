@@ -1,11 +1,13 @@
 import random
+from django.utils import timezone
 
+from django.db.models import Sum
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from be_streamvibe.models.movie import Movie
 from be_streamvibe.serializers.movie_serializer import MovieSerializer
-from be_streamvibe.serializers.movie_ratings_serializer import MovieRatingsSerializer
+from be_streamvibe.serializers.movie_dual_serializer import MovieDualSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -45,11 +47,25 @@ def random_movie(request):
 
 @api_view(['GET'])
 def must_watch_movies(request):
-    top_movies = Movie.objects.order_by('-ratings')[:4]
+    top_movies = Movie.objects.annotate(total_rating=Sum('ratings__rating')).order_by('-total_rating')[:4]
+
     if not top_movies:
         return Response({'message': 'No movies found'}, status=status.HTTP_404_NOT_FOUND)
 
-    serialized_movies = MovieRatingsSerializer(top_movies, many=True)
+    serialized_movies = MovieDualSerializer(top_movies, many=True)
+    return Response(serialized_movies.data)
+
+
+@api_view(['GET'])
+def new_release_movies(request):
+    current_date = timezone.now().date()
+    upcoming_movies = Movie.objects.filter(upcoming_movie__gt=current_date)
+    released_movies = Movie.objects.filter(release_date__lte=current_date)
+    upcoming_movies = upcoming_movies.exclude(upcoming_movie=None)
+    released_movies = released_movies.exclude(upcoming_movie=None)
+    all_movies = upcoming_movies | released_movies
+    all_movies = all_movies.order_by('upcoming_movie')
+    serialized_movies = MovieDualSerializer(all_movies, many=True)
     return Response(serialized_movies.data)
 
 
