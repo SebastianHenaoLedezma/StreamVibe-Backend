@@ -6,3 +6,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'name', 'email', 'phone', 'password', 'verified')
+        extra_kwargs = {
+            'verified': {'required': False}
+        }

@@ -6,7 +6,6 @@ from be_streamvibe.models.user import User
 from be_streamvibe.serializers.user_serializer import UserSerializer
 
 
-
 @api_view(['GET'])
 def list_users(request):
     users = User.objects.all()
