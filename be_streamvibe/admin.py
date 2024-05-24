@@ -38,7 +38,7 @@ class LanguageAdmin(admin.ModelAdmin):
 
 
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('user',)
+    list_display = ('id', 'review')
 
 
 class RatingAdmin(admin.ModelAdmin):
