@@ -1,4 +1,6 @@
 import random
+from datetime import date
+
 from django.utils import timezone
 
 from django.db.models import Sum
@@ -58,15 +60,10 @@ def must_watch_movies(request):
 
 @api_view(['GET'])
 def new_release_movies(request):
-    current_date = timezone.now().date()
-    upcoming_movies = Movie.objects.filter(upcoming_movie__gt=current_date)
-    released_movies = Movie.objects.filter(release_date__lte=current_date)
-    upcoming_movies = upcoming_movies.exclude(upcoming_movie=None)
-    released_movies = released_movies.exclude(upcoming_movie=None)
-    all_movies = upcoming_movies | released_movies
-    all_movies = all_movies.order_by('upcoming_movie')
-    serialized_movies = MovieDualSerializer(all_movies, many=True)
-    return Response(serialized_movies.data)
+    today = date.today()
+    new_movies = Movie.objects.filter(release_date__gt=today, release_date__isnull=False)
+    serializer = MovieDualSerializer(new_movies, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

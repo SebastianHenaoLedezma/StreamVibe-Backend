@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/ratings/<int:pk>/', retrieve_update_delete_rating, name='rating-retrieve-update-delete'),  # ✅ ❓
 
     path('api/reviews/', list_reviews, name='list_reviews'),
-    path('api/reviews-create/', create_review, name='create_review'),
+    path('api/movies/<int:movie_id>/reviews/', create_review, name='create_review'),
     path('api/reviews/<int:pk>/', retrieve_review, name='retrieve_review'),
     path('api/reviews-update/<int:pk>/', update_review, name='update_review'),
     path('api/reviews-delete/<int:pk>/', delete_review, name='delete_review'),

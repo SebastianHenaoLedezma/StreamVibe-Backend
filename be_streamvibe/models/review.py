@@ -13,3 +13,8 @@ class Review(models.Model):
 
     def __str__(self):
         return self.review
+
+    @staticmethod
+    def save_review(review_comment, name):
+        review = Review.objects.create(review=review_comment, name=name)
+        return review
