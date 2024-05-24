@@ -134,5 +134,5 @@ class MovieSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_ratings(movie):
-        average_rating = movie.ratings.values_list('rating', flat=True).aggregate(Avg('rating'))
+        average_rating = movie.ratings.values_list('rating', flat=True).aggregate(Avg('rating')).get('rating__avg')
         return average_rating

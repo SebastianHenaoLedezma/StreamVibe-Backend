@@ -1,6 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+from be_streamvibe.models import Movie
 from be_streamvibe.models.review import Review
 from be_streamvibe.serializers.review_serializer import ReviewSerializer
 
@@ -13,12 +15,16 @@ def list_reviews(request):
 
 
 @api_view(['POST'])
-def create_review(request):
-    serializer = ReviewSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def create_review(request, movie_id):
+    try:
+        movie = Movie.objects.get(pk=movie_id)
+    except Movie.DoesNotExist:
+        return Response({'error': 'Movie not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    review = Review.save_review(request.data.get('review'), request.data.get('name'))
+    movie.reviews.add(review)
+    serializer = ReviewSerializer(review)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
