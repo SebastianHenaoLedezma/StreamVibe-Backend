@@ -33,7 +33,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('id', 'user_name', 'review', 'average_rating')
+        fields = ('id', 'name', 'user_name', 'review', 'average_rating')
 
     @staticmethod
     def get_average_rating(review):
@@ -42,7 +42,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_user_name(review):
-        return review.user.name
+        if review.user:
+            return review.user.name
+        return ""
 
 
 class DirectorSerializer(serializers.ModelSerializer):

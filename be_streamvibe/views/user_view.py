@@ -4,6 +4,8 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import api_view
 from be_streamvibe.models.user import User
 from be_streamvibe.serializers.user_serializer import UserSerializer
+from django.contrib.auth import authenticate
+from django.http import JsonResponse
 
 
 @api_view(['GET'])
@@ -58,3 +60,14 @@ def delete_user(request, pk):
         return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     user.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def login_user(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    user = User.objects.get(email=email)
+    if user is not None:
+        return JsonResponse({'message': 'Login successful'}, status=200)
+    else:
+        return JsonResponse({'message': 'Invalid credentials'}, status=401)
