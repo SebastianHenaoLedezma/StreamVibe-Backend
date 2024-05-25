@@ -6,6 +6,7 @@ from be_streamvibe.models.user import User
 from be_streamvibe.serializers.user_serializer import UserSerializer
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
+from django.contrib.auth.hashers import check_password
 
 
 @api_view(['GET'])
@@ -66,8 +67,10 @@ def delete_user(request, pk):
 def login_user(request):
     email = request.data.get('email')
     password = request.data.get('password')
-    user = User.objects.get(email=email)
-    if user is not None:
-        return JsonResponse({'message': 'Login successful'}, status=200)
-    else:
-        return JsonResponse({'message': 'Invalid credentials'}, status=401)
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+    if check_password(password, user.password):
+        return Response({'message': 'Login successful', 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
+    return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
