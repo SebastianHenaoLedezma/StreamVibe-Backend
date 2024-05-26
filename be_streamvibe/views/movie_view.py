@@ -7,6 +7,8 @@ from django.db.models import Sum
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+from be_streamvibe.models import User, Rating
 from be_streamvibe.models.movie import Movie
 from be_streamvibe.serializers.movie_serializer import MovieSerializer
 from be_streamvibe.serializers.movie_dual_serializer import MovieDualSerializer
@@ -99,3 +101,19 @@ def delete_movie(request, pk):
 
     movie.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['PATCH'])
+def update_rating_movie(request, pk, user_id):
+    try:
+        movie = Movie.objects.get(pk=pk)
+    except Movie.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    rating = request.data.get('rating')
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    rating = Rating.create_or_update_movie(movie, rating, user)
+    movie.ratings.add(rating)
+    return Response(status=status.HTTP_200_OK)
