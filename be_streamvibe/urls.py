@@ -31,7 +31,7 @@ urlpatterns = [
     path('api/reviews/', list_reviews, name='list_reviews'),
     path('api/movies/<int:movie_id>/reviews/', create_review, name='create_review'),
     path('api/reviews/<int:pk>/', retrieve_review, name='retrieve_review'),
-    path('api/reviews-update/<int:pk>/', update_review, name='update_review'),
+    path('api/reviews-update/<int:pk>/<int:user_id>/', update_review, name='update_review'),
     path('api/reviews-delete/<int:pk>/', delete_review, name='delete_review'),
 
     path('api/support-requests/', list_create_support_request, name='support-request-list-create'),  # ❓

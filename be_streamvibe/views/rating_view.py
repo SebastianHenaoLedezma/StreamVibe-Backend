@@ -19,7 +19,7 @@ def list_create_rating(request):
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
 def retrieve_update_delete_rating(request, pk):
     try:
         rating = Rating.objects.get(pk=pk)

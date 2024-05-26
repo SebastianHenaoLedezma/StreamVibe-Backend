@@ -18,3 +18,12 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"{self.rating}"
+
+    @staticmethod
+    def create_or_update(review, stars, user):
+        rating = Rating.objects.filter(review=review, user=user).first()
+        if not rating:
+            return Rating.objects.create(rating=stars, user=user)
+        rating.rating = stars
+        rating.save()
+        return rating

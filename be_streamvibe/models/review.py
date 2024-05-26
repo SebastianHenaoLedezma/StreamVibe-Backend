@@ -15,6 +15,10 @@ class Review(models.Model):
         return self.review
 
     @staticmethod
-    def save_review(review_comment, name):
-        review = Review.objects.create(review=review_comment, name=name)
+    def save_review(review_comment, user_id):
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+        review = Review.objects.create(review=review_comment, user=user)
         return review

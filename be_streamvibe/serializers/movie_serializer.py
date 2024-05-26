@@ -1,7 +1,7 @@
 from django.db.models import Avg
 from rest_framework import serializers
 
-from be_streamvibe.models import Actor, Review, Director, MusicCreator
+from be_streamvibe.models import Actor, Review, Director, MusicCreator, User
 from be_streamvibe.models.movie import Movie
 from be_streamvibe.models.genre import Genre
 from be_streamvibe.models.rating import Rating
@@ -27,17 +27,27 @@ class ActorSerializer(serializers.ModelSerializer):
         return actor.photo_url.url
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'email', 'phone', 'verified')
+        extra_kwargs = {
+            'verified': {'required': False}
+        }
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField(method_name='get_average_rating')
     user_name = serializers.SerializerMethodField(method_name='get_user_name')
+    user = serializers.SerializerMethodField(method_name='get_user')
 
     class Meta:
         model = Review
-        fields = ('id', 'name', 'user_name', 'review', 'average_rating')
+        fields = ('id', 'name', 'user_name', 'review', 'average_rating', 'user')
 
     @staticmethod
     def get_average_rating(review):
-        average_rating = review.ratings.values_list('rating', flat=True).aggregate(Avg('rating'))
+        average_rating = round(review.ratings.values_list('rating', flat=True).aggregate(Avg('rating')).get('rating__avg') or 0)
         return average_rating
 
     @staticmethod
@@ -45,6 +55,10 @@ class ReviewSerializer(serializers.ModelSerializer):
         if review.user:
             return review.user.name
         return ""
+
+    @staticmethod
+    def get_user(review):
+        return UserSerializer(review.user).data
 
 
 class DirectorSerializer(serializers.ModelSerializer):
