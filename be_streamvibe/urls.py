@@ -1,7 +1,7 @@
 from rest_framework import routers
 from django.urls import path
 
-from .views.movie_view import all_movie, all_info_movie, random_movie, must_watch_movies, new_release_movies
+from .views.movie_view import all_movie, all_info_movie, random_movie, must_watch_movies, new_release_movies, update_rating_movie
 from .views.genre_view import genre, get_genre, genre_top, get_genre_top
 from .views.faq_view import list_create_faq
 from .views.rating_view import list_create_rating, retrieve_update_delete_rating
@@ -14,6 +14,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('api/movies/', all_movie, name='movie-list-create'),  # ✅
     path('api/movies/<int:pk>/', all_info_movie, name='movie-retrieve-update-delete'),  # ✅
+    path('api/movies/<int:pk>/<int:user_id>/', update_rating_movie, name='movie-retrieve-update-delete'),  # ✅
     path('api/movies-random/', random_movie, name='movie-random'),  # ✅
     path('api/movies-new-releases/', new_release_movies, name='new-release-movies'),  # ✅
     path('api/movies-must-watch/', must_watch_movies, name='movie-must-watch'),  # ✅
