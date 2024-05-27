@@ -44,14 +44,25 @@ def update_review(request, pk, user_id):
         review = Review.objects.get(pk=pk)
     except Review.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    rating = request.data.get('rating')
+
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-    rating = Rating.create_or_update(review, rating, user)
-    review.ratings.add(rating)
-    return Response(status=status.HTTP_200_OK)
+
+    # Verificar si el usuario que está actualizando la review es el mismo que la creó
+    if review.user != user:
+        return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+
+    serializer = ReviewSerializer(review, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # Imprimir errores del serializer
+    print(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
