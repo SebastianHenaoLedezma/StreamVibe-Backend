@@ -15,7 +15,6 @@ import cloudinary
 import os
 """ import dj_database_url """
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 """ DATABASE_URL = "postgresql://postgres:fjHSRDKOlyNKsygqPyhmTpKuwGQGVVAT@monorail.proxy.rlwy.net:12377/railway" """
@@ -142,6 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Add this line
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -158,7 +158,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',    # Agrega aquí la URL de tu aplicación de React
 ]
-
 
 # Permitir todos los orígenes para desarrollo
 CORS_ALLOW_ALL_ORIGINS = True
@@ -185,4 +184,3 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
-
