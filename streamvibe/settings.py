@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import cloudinary
 import os
+
+import dj_database_url
 """ import dj_database_url """
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -96,16 +98,10 @@ WSGI_APPLICATION = 'streamvibe.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    #'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=1800)
-
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'railway',
-         'USER': 'postgres',
-         'PASSWORD': 'HDxKJfLzgvnvHbnBRwXnWsHGRbjTugZn',
-         'HOST': 'viaduct.proxy.rlwy.net',
-         'PORT': '34396',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600
+    )
 }
 
 # Password validation
