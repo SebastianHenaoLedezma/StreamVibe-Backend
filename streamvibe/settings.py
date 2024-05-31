@@ -97,11 +97,25 @@ WSGI_APPLICATION = 'streamvibe.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='sqlite:///db.sqlite3',
+#         conn_max_age=600
+#     )
+# }
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'streamvibe',
+        'USER': 'streamvibe_user',
+        'PASSWORD': '8Vwb9YnTcfv5lQFG8b5yES3gsJ9fgwbL',
+        'HOST': 'dpg-cp9695lds78s73cdmb6g-a.oregon-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'connect_timeout': 10,
+        },
+    }
 }
 
 # Password validation
